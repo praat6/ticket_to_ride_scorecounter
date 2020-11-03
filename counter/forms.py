@@ -1,18 +1,14 @@
 from django import forms
-
-
-class PlayerField(forms.CharField):
-    def __init__(self, css_class, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.css_class = css_class
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Row, Submit, Column
 
 
 class CreateGameForm(forms.Form):
-    red = PlayerField(max_length=100, required=False, css_class='p-3 mb-2 bg-red text-white')
-    blue = PlayerField(max_length=100,  required=False, css_class='p-3 mb-2 bg-blue text-white')
-    green = PlayerField(max_length=100,  required=False, css_class='p-3 mb-2 bg-green text-white')
-    yellow = PlayerField(max_length=100,  required=False, css_class='p-3 mb-2 bg-yellow text-white')
-    black = PlayerField(max_length=100, required=False, css_class='p-3 mb-2 bg-black text-white')
+    red = forms.CharField(max_length=100, required=False, label='Name')
+    blue = forms.CharField(max_length=100, required=False, label='Name')
+    green = forms.CharField(max_length=100, required=False, label='Name')
+    yellow = forms.CharField(max_length=100, required=False, label='Name')
+    black = forms.CharField(max_length=100, required=False, label='Name')
 
     def is_valid(self):
         n_players = 0
@@ -25,3 +21,15 @@ class CreateGameForm(forms.Form):
             return False
         else:
             return super().is_valid()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(Column('red', css_class='p-3 mb-2 bg-red text-white')),
+            Row(Column('blue', css_class='p-3 mb-2 bg-blue text-white')),
+            Row(Column('green', css_class='p-3 mb-2 bg-green text-white')),
+            Row(Column('yellow', css_class='p-3 mb-2 bg-yellow text-white')),
+            Row(Column('black', css_class='p-3 mb-2 bg-black text-white')),
+            Submit('submit', 'Create game')
+        )

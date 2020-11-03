@@ -10,14 +10,8 @@
     <title>Create your game</title>
 </head>
 <body>
-    <form action="" method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <div class="{{ field.field.css_class }}">
-                {{ field|as_crispy_field }}
-            </div>
-        {% endfor %}
-        <input class="btn btn-primary" type="submit" value="Create game">
-    </form>
+{% block content %}
+    {% crispy form %}
+{% endblock %}
 </body>
 </html>
