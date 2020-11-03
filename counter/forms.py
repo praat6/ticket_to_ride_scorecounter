@@ -1,6 +1,6 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Submit, Column
+from crispy_forms.layout import Layout, Row, Column, Submit, Div
 
 
 class CreateGameForm(forms.Form):
@@ -31,5 +31,5 @@ class CreateGameForm(forms.Form):
             Row(Column('green', css_class='p-3 mb-2 bg-green text-white')),
             Row(Column('yellow', css_class='p-3 mb-2 bg-yellow text-white')),
             Row(Column('black', css_class='p-3 mb-2 bg-black text-white')),
-            Submit('submit', 'Create game')
+            Div(Submit('submit', 'START!'), css_class='col text-center')
         )
