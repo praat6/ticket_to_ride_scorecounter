@@ -10,8 +10,8 @@
                     <div class="row ml-1 mr-1">
                         {% with element_id=player.name|add:'-'|add:label %}
                             <input class="sign-button" type="button" onclick="decrementValue('{{ element_id }}')" value="-" />
-                            <label for={{ element_id }}></label>
-                            <input class="col-5" type="text" name="value" id={{ element_id }} value="0"/>
+                            <label for="{{ element_id }}"></label>
+                            <input class="col-5" type="text" name="value" id="{{ element_id }}" value="0"/>
                             <input class="sign-button" type="button" onclick="incrementValue('{{ element_id }}')" value="+" />
                         {% endwith %}
                     </div>
@@ -20,7 +20,7 @@
         </div>
     {% endfor %}
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="{% static 'js/increment.js' %}"></script>
+    <script src="{% static 'js/modify_route.js' %}"></script>
     {% block javascript %}{% endblock %}
 {% endblock %}
 

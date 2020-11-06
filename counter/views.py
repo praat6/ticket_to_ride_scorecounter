@@ -24,7 +24,13 @@ def game_detail(request, game_code):
     return render(request, 'counter/game.html', {'players': players, 'n_train_car_choices': Route.N_TRAIN_CARS_CHOICES})
 
 
-def add_score(request):
+def add_route(request):
     score = request.GET.get('value', None)
-    print(score)
+    print('adding {}'.format(score))
+    return JsonResponse({'score': score})
+
+
+def subtract_route(request):
+    score = request.GET.get('value', None)
+    print('subtracting {}'.format(score))
     return JsonResponse({'score': score})
