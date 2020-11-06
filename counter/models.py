@@ -22,7 +22,6 @@ class Player(models.Model):
 
     name = models.CharField(max_length=20)
     color = models.CharField(max_length=7, choices=COLOR_CHOICES)
-    score = models.IntegerField(default=0)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -30,3 +29,18 @@ class Player(models.Model):
 
     class Meta:
         unique_together = ('name', 'color', 'game')
+
+
+class Route(models.Model):
+    ONE_TRAIN_CAR = 1
+    TWO_TRAIN_CARS = 2
+    THREE_TRAIN_CARS = 3
+    FOUR_TRAIN_CARS = 4
+    FIVE_TRAIN_CARS = 5
+    SIX_TRAIN_CARS = 6
+
+    N_TRAIN_CARS_CHOICES = [(ONE_TRAIN_CAR, 'one'), (TWO_TRAIN_CARS, 'two'), (THREE_TRAIN_CARS, 'three'),
+                            (FOUR_TRAIN_CARS, 'four'), (FIVE_TRAIN_CARS, 'five'), (SIX_TRAIN_CARS, 'six')]
+
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    n_train_cars = models.IntegerField(choices=N_TRAIN_CARS_CHOICES)

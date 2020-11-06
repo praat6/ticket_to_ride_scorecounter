@@ -1,0 +1,5 @@
+.sign-button {
+    @extend .col;
+    @extend .pl-1;
+    @extend .pr-1,
+}
