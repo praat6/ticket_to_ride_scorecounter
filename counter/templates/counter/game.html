@@ -2,17 +2,29 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
 {% block content %}
+    <div class="row p-2 mb-2">
+        <div class="col-2 text-black">Name</div>
+        {% for n_train_cars, _ in n_train_car_choices %}
+            <div class="col">{{ n_train_cars }}</div>
+        {% endfor %}
+    </div>
     {% for player in players %}
-        <div class="p-2 mb-2 bg-{{ player.get_color_display }} row">
+        <div class="row p-2 mb-2 bg-{{ player.get_color_display }}">
             <div class="col-2 text-white">{{ player.name }}</div>
             {% for n_train_cars, label in n_train_car_choices %}
                 <div class="col">
                     <div class="row ml-1 mr-1">
-                        {% with element_id=player.name|add:'-'|add:label %}
-                            <input class="sign-button" type="button" onclick="decrementValue('{{ element_id }}')" value="-" />
+                        {% with element_id=player.get_color_display|add:'-'|add:label %}
+                            <form id="remove-{{ element_id }}" method="post">
+                                {% csrf_token %}
+                                <input class="sign-button" type="button" onclick="removeRoute({{ n_train_cars }}, {{ player.id }})" value="-" />
+                            </form>
                             <label for="{{ element_id }}"></label>
                             <input class="col-5" type="text" name="value" id="{{ element_id }}" value="0"/>
-                            <input class="sign-button" type="button" onclick="incrementValue('{{ element_id }}')" value="+" />
+                            <form id="add-{{ element_id }}" method="post">
+                                {% csrf_token %}
+                                <input class="sign-button" type="button" onclick="addRoute({{ n_train_cars }}, {{ player.id }})" value="+">
+                            </form>
                         {% endwith %}
                     </div>
                 </div>
@@ -20,7 +32,7 @@
         </div>
     {% endfor %}
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="{% static 'js/modify_route.js' %}"></script>
+    <script src="{% static 'js/routes.js' %}"></script>
     {% block javascript %}{% endblock %}
 {% endblock %}
 

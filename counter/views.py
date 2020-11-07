@@ -1,18 +1,19 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+
 from .forms import CreateGameForm
 from .models import Game, Player, Route
 
 
 def create_game(request):
     form = CreateGameForm(request.POST)
-    if form.is_valid():
 
+    if form.is_valid():
         game = Game.objects.create()
         for hex_color_code, color_name in Player.COLOR_CHOICES:
             if player_name := form.data[color_name]:
-                Player.objects.create(name=player_name, color=hex_color_code, game=game)
+                game.player_set.create(name=player_name, color=hex_color_code)
 
         return HttpResponseRedirect(reverse('game-detail', args=(game, )))
 
@@ -25,12 +26,14 @@ def game_detail(request, game_code):
 
 
 def add_route(request):
-    score = request.GET.get('value', None)
-    print('adding {}'.format(score))
-    return JsonResponse({'score': score})
+    player_route_set = Player.objects.get(id=request.POST.get('player_id')).route_set
+    player_route_set.create(n_train_cars=request.POST.get('n_train_cars'))
+
+    return JsonResponse({'n_routes': player_route_set.count()})
 
 
-def subtract_route(request):
-    score = request.GET.get('value', None)
-    print('subtracting {}'.format(score))
-    return JsonResponse({'score': score})
+def remove_route(request):
+    player_route_set = Player.objects.get(id=request.POST.get('player_id')).route_set
+    player_route_set.filter(n_train_cars=request.POST.get('n_train_cars')).last().delete()
+
+    return JsonResponse({'n_routes': player_route_set.count()})
