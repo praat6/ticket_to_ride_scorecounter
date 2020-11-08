@@ -24,6 +24,9 @@ class Player(models.Model):
     color = models.CharField(max_length=7, choices=COLOR_CHOICES)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
 
+    def get_n_routes(self, n_train_cars):
+        return self.route_set.filter(n_train_cars=n_train_cars).count()
+
     def __str__(self):
         return '{} {}'.format(self.game.code, self.get_color_display())
 
