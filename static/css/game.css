@@ -12,9 +12,6 @@
 }
 
 .sign-button {
-    @extend .col;
-    @extend .pl-1;
-    @extend .pr-1;
     cursor: pointer;
     display: inline-block;
     vertical-align: top;
@@ -26,26 +23,26 @@
     border-radius: 50%;
 }
 
-.sign-button:hover{
+.sign-button:hover {
     background-color: #717fe0 !important;
 }
 
 /*Prevent text selection*/
-span{
+span {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
 }
-input{
+
+input {
     border: 0;
     width: 2%;
 }
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-input:disabled{
+input:disabled {
     background-color:white;
 }

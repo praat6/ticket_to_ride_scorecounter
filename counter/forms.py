@@ -44,6 +44,5 @@ class ModifyRouteForm(forms.Form):
         self.player = player
         self.route_type = route_type
 
-        self.fields['n_train_cars'].label = False
         self.fields['n_train_cars'].initial = player.route_set.filter(n_train_cars=route_type.n_train_cars).count()
         self.fields['n_train_cars'].widget.attrs['class'] = 'n-train-cars'

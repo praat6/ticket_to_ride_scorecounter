@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
 from .forms import CreateGameForm, ModifyRouteForm
-from .models import Game, Player, Route
+from .models import Game, Player
 from .helpers import routes
 
 
