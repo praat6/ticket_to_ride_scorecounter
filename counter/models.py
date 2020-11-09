@@ -1,10 +1,11 @@
+import numpy as np
 from django.db import models
 
-from .settings import game_code_gen
+from .helpers import gen_game_code, routes
 
 
 class Game(models.Model):
-    code = models.CharField(max_length=5, default=game_code_gen)
+    code = models.CharField(max_length=5, default=gen_game_code.generate)
     datetime = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -27,6 +28,9 @@ class Player(models.Model):
     def get_n_routes(self, n_train_cars):
         return self.route_set.filter(n_train_cars=n_train_cars).count()
 
+    def score(self):
+        return np.sum([route.to_score() for route in self.route_set.all()])
+
     def __str__(self):
         return '{} {}'.format(self.game.code, self.get_color_display())
 
@@ -35,15 +39,21 @@ class Player(models.Model):
 
 
 class Route(models.Model):
-    ONE_TRAIN_CAR = 1
-    TWO_TRAIN_CARS = 2
-    THREE_TRAIN_CARS = 3
-    FOUR_TRAIN_CARS = 4
-    FIVE_TRAIN_CARS = 5
-    SIX_TRAIN_CARS = 6
-
-    N_TRAIN_CARS_CHOICES = [(ONE_TRAIN_CAR, 'one'), (TWO_TRAIN_CARS, 'two'), (THREE_TRAIN_CARS, 'three'),
-                            (FOUR_TRAIN_CARS, 'four'), (FIVE_TRAIN_CARS, 'five'), (SIX_TRAIN_CARS, 'six')]
+    N_TRAIN_CARS_CHOICES = [
+        (routes.one.n_train_cars, 'one'),
+        (routes.two.n_train_cars, 'two'),
+        (routes.three.n_train_cars, 'three'),
+        (routes.four.n_train_cars, 'four'),
+        (routes.five.n_train_cars, 'five'),
+        (routes.six.n_train_cars, 'six')
+    ]
 
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     n_train_cars = models.IntegerField(choices=N_TRAIN_CARS_CHOICES)
+
+    def to_score(self):
+        for route_type in routes.types:
+            if route_type.n_train_cars == self.n_train_cars:
+                return route_type.score
+
+        raise ValueError('Can\'t convert a route of {} train cars to a score.'.format(self.n_train_cars))
