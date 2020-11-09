@@ -1,9 +1,12 @@
+from collections import defaultdict
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
-from .forms import CreateGameForm
+from .forms import CreateGameForm, ModifyRouteForm
 from .models import Game, Player, Route
+from .helpers import routes
 
 
 def create_game(request):
@@ -22,7 +25,13 @@ def create_game(request):
 
 def game_detail(request, game_code):
     players = Game.objects.get(code=game_code).player_set.all()
-    return render(request, 'counter/game.html', {'players': players, 'n_train_car_choices': Route.N_TRAIN_CARS_CHOICES})
+
+    forms = defaultdict(list)
+    for player in players:
+        for route_type in routes.types:
+            forms[player].append(ModifyRouteForm(player=player, route_type=route_type))
+
+    return render(request, 'counter/game.html', {'player_forms': dict(forms)})
 
 
 def add_route(request):
