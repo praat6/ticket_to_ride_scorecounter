@@ -1,3 +1,15 @@
+.player-name {
+    color: white;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    padding: 0 2px;
+    min-width: 35px;
+    text-align: center;
+}
+
 .n-train-cars {
     background-color: inherit;
     color: white;
@@ -14,11 +26,12 @@
 .sign-button {
     cursor: pointer;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
+    margin: 5% 0 5% 0;
     color: white;
-    width: 30px;
-    height: 30px;
-    font: 30px/1 Arial,sans-serif;
+    width: 20px;
+    height: 20px;
+    font: 20px/1 Arial,sans-serif;
     text-align: center;
     border-radius: 50%;
 }

@@ -2,20 +2,20 @@
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}" xmlns="http://www.w3.org/1999/html">
 {% endblock %}
 
 {% block content %}
     {% for player, forms in player_forms.items %}
         <div class="fieldWrapper row p-2 mb-2 bg-{{ player.get_color_display }}">
-            <div class="col-2 text-white">{{ player.name }}</div>
+            <div class="col-2 player-name">{{ player.name }}</div>
             {% for form in forms %}
                 <div class="col">
                     <div class="row ml-1 mr-1">
-                        <input class="sign-button bg-dark" type="button" onclick="removeRoute({{ form.n_train_cars }}, {{ form.player.id }})" value="-" /><label for="{{ form.n_train_cars.id_for_label }}"></label>
+                        <span class="sign-button bg-dark" onclick="removeRoute({{ form.n_train_cars }}, {{ form.player.id }})">-</span>
                         {% csrf_token %}
                         {{ form.n_routes }}
-                        <input class="sign-button bg-dark" type="button" onclick="addRoute({{ form.n_train_cars }}, {{ form.player.id }})" value="+">
+                        <span class="sign-button bg-dark" onclick="addRoute({{ form.n_train_cars }}, {{ form.player.id }})">+</span>
                     </div>
                 </div>
             {% endfor %}
