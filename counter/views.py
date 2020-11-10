@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
-from .forms import CreateGameForm, ModifyRouteForm
+from .forms import CreateGameForm, RoutesForm
 from .models import Game, Player
 from .helpers import routes
 
@@ -29,7 +29,7 @@ def game_detail(request, game_code):
     forms = defaultdict(list)
     for player in players:
         for route_type in routes.types:
-            forms[player].append(ModifyRouteForm(player=player, route_type=route_type))
+            forms[player].append(RoutesForm(player=player, n_train_cars=route_type.n_train_cars))
 
     return render(request, 'counter/game.html', {'player_forms': dict(forms)})
 

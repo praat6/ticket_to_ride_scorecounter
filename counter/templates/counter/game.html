@@ -12,10 +12,10 @@
             {% for form in forms %}
                 <div class="col">
                     <div class="row ml-1 mr-1">
-                        <input class="sign-button bg-dark" type="button" onclick="removeRoute({{ form.route_type.n_train_cars }}, {{ form.player.id }})" value="-" /><label for="{{ form.n_train_cars.id_for_label }}"></label>
+                        <input class="sign-button bg-dark" type="button" onclick="removeRoute({{ form.n_train_cars }}, {{ form.player.id }})" value="-" /><label for="{{ form.n_train_cars.id_for_label }}"></label>
                         {% csrf_token %}
-                        {{ form.n_train_cars }}
-                        <input class="sign-button bg-dark" type="button" onclick="addRoute({{ form.route_type.n_train_cars }}, {{ form.player.id }})" value="+">
+                        {{ form.n_routes }}
+                        <input class="sign-button bg-dark" type="button" onclick="addRoute({{ form.n_train_cars }}, {{ form.player.id }})" value="+">
                     </div>
                 </div>
             {% endfor %}
