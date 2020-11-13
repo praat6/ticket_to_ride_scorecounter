@@ -12,13 +12,16 @@
             {% for form in forms %}
                 <div class="col">
                     <div class="row ml-1 mr-1">
-                        <span class="sign-button bg-dark" onclick="removeRoute({{ form.n_train_cars }}, {{ form.player.id }})">-</span>
+                        <span class="sign-button bg-dark" onclick="removeRoute('{{ form.routes_count.id_for_label }}', {{ form.n_train_cars }}, {{ form.player.id }})">-</span>
                         {% csrf_token %}
-                        {{ form.n_routes }}
-                        <span class="sign-button bg-dark" onclick="addRoute({{ form.n_train_cars }}, {{ form.player.id }})">+</span>
+                        {{ form.routes_count }}
+                        <span class="sign-button bg-dark" onclick="addRoute('{{ form.routes_count.id_for_label }}', {{ form.n_train_cars }}, {{ form.player.id }})">+</span>
                     </div>
                 </div>
             {% endfor %}
+            <div>
+                <div class="col-2 text-white value">{{ player.score }}</div>
+            </div>
         </div>
     {% endfor %}
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>

@@ -36,7 +36,7 @@ class CreateGameForm(forms.Form):
 
 
 class RoutesForm(forms.Form):
-    n_routes = forms.IntegerField()
+    routes_count = forms.IntegerField()
 
     def __init__(self, player, n_train_cars, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -44,6 +44,7 @@ class RoutesForm(forms.Form):
         self.player = player
         self.n_train_cars = n_train_cars
 
-        self.fields['n_routes'].initial = player.route_set.filter(n_train_cars=self.n_train_cars).count()
-        self.fields['n_routes'].widget.attrs['id'] = '{}-{}'.format(self.player.get_color_display(), self.n_train_cars)
-        self.fields['n_routes'].widget.attrs['class'] = 'n-train-cars'
+        self.fields['routes_count'].initial = player.route_set.filter(n_train_cars=self.n_train_cars).count()
+        self.fields['routes_count'].widget.attrs['id'] = '{}-{}'.format(self.player.get_color_display(),
+                                                                        self.n_train_cars)
+        self.fields['routes_count'].widget.attrs['class'] = 'value'

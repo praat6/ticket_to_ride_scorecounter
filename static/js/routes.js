@@ -1,4 +1,8 @@
-function addRoute(n_train_cars, player_id)
+function update_routes_count_value(form_field_id, routes_count) {
+    document.getElementById(form_field_id).value = routes_count
+}
+
+function addRoute(form_field_id, n_train_cars, player_id)
 {
     $.ajax({
         type: 'POST',
@@ -9,10 +13,13 @@ function addRoute(n_train_cars, player_id)
             'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
         },
         dataType: 'json',
+        success: function (data) {
+            update_routes_count_value(form_field_id, data.routes_count)
+        }
     });
 }
 
-function removeRoute(n_train_cars, player_id)
+function removeRoute(form_field_id, n_train_cars, player_id)
 {
     $.ajax({
         type: 'POST',
@@ -22,6 +29,9 @@ function removeRoute(n_train_cars, player_id)
             'player_id': player_id,
             'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
         },
-        dataType: 'json'
+        dataType: 'json',
+        success: function (data) {
+            update_routes_count_value(form_field_id, data.routes_count)
+        }
     });
 }

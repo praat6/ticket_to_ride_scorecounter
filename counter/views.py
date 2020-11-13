@@ -34,15 +34,20 @@ def game_detail(request, game_code):
     return render(request, 'counter/game.html', {'player_forms': dict(forms)})
 
 
+def get_player_route_set(player_id):
+    return Player.objects.get(id=player_id).route_set
+
+
 def add_route(request):
     player_route_set = Player.objects.get(id=request.POST.get('player_id')).route_set
-    player_route_set.create(n_train_cars=request.POST.get('n_train_cars'))
+    player_route_set.create(n_train_cars=(n_train_cars := request.POST.get('n_train_cars')))
 
-    return JsonResponse({'n_routes': player_route_set.count()})
+    return JsonResponse({'routes_count': player_route_set.filter(n_train_cars=n_train_cars).count()})
 
 
 def remove_route(request):
-    player_route_set = Player.objects.get(id=request.POST.get('player_id')).route_set
-    player_route_set.filter(n_train_cars=request.POST.get('n_train_cars')).last().delete()
+    player = Player.objects.get(id=request.POST.get('player_id'))
+    player_routes = player.route_set.filter(n_train_cars=request.POST.get('n_train_cars'))
+    player_routes.last().delete()
 
-    return JsonResponse({'n_routes': player_route_set.count()})
+    return JsonResponse({'routes_count': player_routes.count()})
