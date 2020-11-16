@@ -39,10 +39,15 @@ def get_player_route_set(player_id):
 
 
 def add_route(request):
-    player_route_set = Player.objects.get(id=request.POST.get('player_id')).route_set
-    player_route_set.create(n_train_cars=(n_train_cars := request.POST.get('n_train_cars')))
+    player = Player.objects.get(id=request.POST.get('player_id'))
+    player.route_set.create(n_train_cars=(n_train_cars := request.POST.get('n_train_cars')))
 
-    return JsonResponse({'routes_count': player_route_set.filter(n_train_cars=n_train_cars).count()})
+    return JsonResponse(
+        {
+            'routes_count': player.route_set.filter(n_train_cars=n_train_cars).count(),
+            'player_score': player.score()
+        }
+    )
 
 
 def remove_route(request):
@@ -50,4 +55,9 @@ def remove_route(request):
     player_routes = player.route_set.filter(n_train_cars=request.POST.get('n_train_cars'))
     player_routes.last().delete()
 
-    return JsonResponse({'routes_count': player_routes.count()})
+    return JsonResponse(
+        {
+            'routes_count': player_routes.count(),
+            'player_score': player.score()
+        }
+    )

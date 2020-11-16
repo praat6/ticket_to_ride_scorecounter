@@ -1,8 +1,14 @@
-function update_routes_count_value(form_field_id, routes_count) {
-    document.getElementById(form_field_id).value = routes_count
+function getRoutesCount(element) {
+    let routes_count_parent = element.parentElement;
+    return routes_count_parent.querySelector('[name=routes_count]')
 }
 
-function addRoute(form_field_id, n_train_cars, player_id)
+function getPlayerScore(element) {
+    let player_div = element.parentElement.parentElement.parentElement;
+    return player_div.querySelector('[name=player-score]')
+}
+
+function addRoute(n_train_cars, player_id, element)
 {
     $.ajax({
         type: 'POST',
@@ -14,12 +20,16 @@ function addRoute(form_field_id, n_train_cars, player_id)
         },
         dataType: 'json',
         success: function (data) {
-            update_routes_count_value(form_field_id, data.routes_count)
+            let routes_count = getRoutesCount(element);
+            routes_count.value = data.routes_count;
+
+            let player_score = getPlayerScore(element);
+            player_score.value = data.player_score;
         }
     });
 }
 
-function removeRoute(form_field_id, n_train_cars, player_id)
+function removeRoute(n_train_cars, player_id, element)
 {
     $.ajax({
         type: 'POST',
@@ -31,7 +41,11 @@ function removeRoute(form_field_id, n_train_cars, player_id)
         },
         dataType: 'json',
         success: function (data) {
-            update_routes_count_value(form_field_id, data.routes_count)
+            let routes_count = getRoutesCount(element);
+            routes_count.value = data.routes_count;
+
+            let player_score = getPlayerScore(element);
+            player_score.value = data.player_score;
         }
     });
 }
