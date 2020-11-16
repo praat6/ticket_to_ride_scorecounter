@@ -1,4 +1,3 @@
-import numpy as np
 from django.db import models
 
 from .helpers import gen_game_code, routes
@@ -29,7 +28,7 @@ class Player(models.Model):
         return self.route_set.filter(n_train_cars=n_train_cars).count()
 
     def score(self):
-        return np.sum([route.to_score() for route in self.route_set.all()])
+        return sum([route.to_score() for route in self.route_set.all()])
 
     def __str__(self):
         return '{} {}'.format(self.game.code, self.get_color_display())
